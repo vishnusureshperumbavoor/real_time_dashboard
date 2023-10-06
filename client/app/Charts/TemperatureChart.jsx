@@ -6,13 +6,11 @@ import io from "socket.io-client"
 const socket = io.connect("http://localhost:5000/");
 
 function TemperatureChart() {
-
   const [data,setData] = useState("")
 
   useEffect(() => {
     socket.on("message",(data)=>{
-      alert(data)
-      setData(data)
+      alert("connected to server")
     })
   }, [])
   
