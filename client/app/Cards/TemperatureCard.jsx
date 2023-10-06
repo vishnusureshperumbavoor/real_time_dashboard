@@ -37,12 +37,12 @@ function TemperatureCard() {
 
   return (
     <div>
-      <Card sx={{ minWidth: 275 }}>
+      <Card sx={{ minWidth: 275, backgroundColor: "#212121" }}>
         <CardContent>
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+          <Typography sx={{ fontSize: 14 }} color="white" gutterBottom>
             Temperature
           </Typography>
-          <Typography variant="h5" component="div">
+          <Typography variant="h5" component="div" color="white">
             {temperature !== null ? `${temperature} °C` : "Loading..."}
           </Typography>
         </CardContent>

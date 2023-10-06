@@ -36,12 +36,12 @@ function HumidityCard() {
 
   return (
     <div>
-      <Card sx={{ minWidth: 275 }}>
+      <Card sx={{ minWidth: 275, backgroundColor: "#212121" }}>
         <CardContent>
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+          <Typography sx={{ fontSize: 14 }} color="white" gutterBottom>
             Humidity
           </Typography>
-          <Typography variant="h5" component="div">
+          <Typography variant="h5" component="div" color="white">
             {humidity !== null ? `${humidity}%` : "Loading..."}
           </Typography>
         </CardContent>

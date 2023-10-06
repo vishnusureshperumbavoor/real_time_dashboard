@@ -87,7 +87,7 @@ function Dashboard() {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" open={open} sx={{ backgroundColor: "#212121" }}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -99,7 +99,7 @@ function Dashboard() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Dashboard
+            REAL TIME IOT DASHBOARD
           </Typography>
         </Toolbar>
       </AppBar>
@@ -168,7 +168,7 @@ function Dashboard() {
             <TemperatureChart />
           </Grid>
           <Grid item xs={12} md={4}>
-            <TemperatureTable/>
+            <TemperatureTable />
           </Grid>
         </Grid>
       </Main>
