@@ -1,70 +1,93 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const http = require("http");
+const http = require("http").createServer(app);
 const { Server } = require("socket.io");
-const server = http.createServer(app);
-
-app.use(cors({ origin: "http://localhost:3000" }));
-
-const io = new Server(server, {
+const io = new Server(http, {
   cors: {
     origin: "http://localhost:3000",
     methods: ["GET", "POST"],
   },
 });
 
-let timeChange;
+app.use(cors({ origin: "http://localhost:3000" }));
 
-// Function to generate random temperature data
+// functions to generate temperature, humidity and moisture data
 function generateTemperature() {
   const temperature = (Math.random() * (30 - 20) + 20).toFixed(2); // Random temperature between 20 and 30
   return temperature;
 }
 
-// Endpoint to fetch temperature data
-app.get("/get-temperature", (req, res) => {
-  const temperature = generateTemperature();
-  res.json({ temperature });
-});
-
-// Function to generate random moisture data
-function generateMoisture() {
-  const moisture = (Math.random() * (30 - 20) + 20).toFixed(2); // Random moisture between 20 and 30
-  return moisture;
-}
-
-// Endpoint to fetch moisture data
-app.get("/get-moisture", (req, res) => {
-  const moisture = generateMoisture();
-  res.json({ moisture });
-});
-
-// Function to generate random humidity data
 function generateHumidity() {
   const humidity = (Math.random() * (60 - 40) + 40).toFixed(2); // Random humidity between 40 and 60
   return humidity;
 }
 
-// Endpoint to fetch humidity data
-app.get("/get-humidity", (req, res) => {
-  const humidity = generateHumidity();
-  res.json({ humidity });
-});
-
-
+function generateMoisture() {
+  const moisture = (Math.random() * (30 - 20) + 20).toFixed(2); // Random moisture between 20 and 30
+  return moisture;
+}
 
 io.on("connection", (socket) => {
   console.log(`User connected: ${socket.id}`);
-  if (timeChange) {
-    setInterval(() => {
-      socket.emit("message", new Date(), 1000);
-    });
-  }
+
+  // Send random temperature, humidity, and moisture data to the client every second
+  const dataInterval = setInterval(() => {
+    const randomNumber = Math.floor(Math.random() * 201) + 200;
+    const randomNumber1 = Math.floor(Math.random() * 201) + 200;
+    const randomNumber2 = Math.floor(Math.random() * 201) + 200;
+    const randomNumber3 = Math.floor(Math.random() * 201) + 200;
+    const randomNumber4 = Math.floor(Math.random() * 201) + 200;
+    const randomNumber5 = Math.floor(Math.random() * 201) + 200;
+
+    const date = new Date();
+    const options = {
+      timeZone: "Asia/Kolkata", // Set the time zone to IST
+      hour12: true, // Use 24-hour format
+    };
+    const indianTime = date.toLocaleTimeString("en-US", options);
+
+    function subtractSeconds(date, seconds) {
+      console.log(date);
+      date.setSeconds(date.getSeconds() - seconds);
+      return date;
+    }
+
+    const subtractOneSeconds = subtractSeconds(date, 1);
+    const subtractTwoSeconds = subtractSeconds(date, 2);
+    const subtractThreeSeconds = subtractSeconds(date, 3);
+    const subtractFourSeconds = subtractSeconds(date, 4);
+    const subtractFiveSeconds = subtractSeconds(date, 5);
+
+    const data = [
+      { date: subtractFiveSeconds, temperature: randomNumber },
+      { date: subtractFourSeconds, temperature: randomNumber1 },
+      { date: subtractThreeSeconds, temperature: randomNumber2 },
+      { date: subtractTwoSeconds, temperature: randomNumber3 },
+      { date: subtractOneSeconds, temperature: randomNumber4 },
+      { date: indianTime, temperature: randomNumber5 },
+    ];
+
+    const temperature = generateTemperature();
+    const humidity = generateHumidity();
+    const moisture = generateMoisture();
+
+    socket.emit("temperature", temperature);
+    socket.emit("humidity", humidity);
+    socket.emit("moisture", moisture);
+    socket.emit("message", indianTime);
+    socket.emit("temperature_chart_data", data);
+  }, 1000);
+
+  // Handle client disconnection
+  socket.on("disconnect", () => {
+    console.log(`User disconnected: ${socket.id}`);
+    clearInterval(dataInterval);
+  });
 });
 
 const port = process.env.PORT || 5000;
 
-app.listen(port, () => {
+http.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

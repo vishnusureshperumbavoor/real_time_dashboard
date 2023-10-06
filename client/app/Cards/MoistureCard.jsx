@@ -2,43 +2,34 @@ import React, { useState, useEffect } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import axios from "axios";
+import socketIOClient from "socket.io-client";
+require("dotenv").config;
 
 function MoistureCard() {
   const [moisture, setMoisture] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const apiUrl = `${process.env.NEXT_PUBLIC_FLASK_API_URL}/get-moisture`;
+    const socket = socketIOClient(process.env.NEXT_PUBLIC_ENDPOINT);
 
-        // Use Axios to fetch moisture data from the Flask backend
-        const response = await axios.get(apiUrl);
+    // Listen for moisture updates from the server
+    socket.on("moisture", (newMoisture) => {
+      setMoisture(newMoisture);
+    });
 
-        // Assuming your Flask API returns moisture data in the "moisture" field
-        setMoisture(response.data.moisture);
-      } catch (error) {
-        console.error("Error fetching moisture data:", error);
-      }
+    return () => {
+      socket.disconnect(); // Clean up the socket connection when the component unmounts
     };
-
-    // Fetch moisture data initially when the component mounts
-    fetchData();
-
-    // Set up an interval to fetch moisture data every 2 seconds
-    const intervalId = setInterval(() => {
-      fetchData();
-    }, 2000);
-
-    // Clean up the interval when the component unmounts
-    return () => clearInterval(intervalId);
   }, []);
 
   return (
     <div>
       <Card sx={{ minWidth: 275, backgroundColor: "#212121" }}>
         <CardContent>
-          <Typography sx={{ fontSize: 14 }} color="white" gutterBottom>
+          <Typography
+            sx={{ fontSize: 14, fontFamily: "Times New Roman" }}
+            color="white"
+            gutterBottom
+          >
             Moisture
           </Typography>
           <Typography variant="h5" component="div" color="white">

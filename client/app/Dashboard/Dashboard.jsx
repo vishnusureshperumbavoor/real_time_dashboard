@@ -98,7 +98,12 @@ function Dashboard() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            style={{ fontFamily: "Times New Roman" }}
+          >
             REAL TIME IOT DASHBOARD
           </Typography>
         </Toolbar>
@@ -155,20 +160,20 @@ function Dashboard() {
       <Main open={open}>
         <DrawerHeader />
         <Grid container spacing={2}>
-          <Grid item xs={12} md={3}>
+          <Grid item xs={12} md={4}>
             <TemperatureCard />
           </Grid>
-          <Grid item xs={12} md={3}>
+          <Grid item xs={12} md={4}>
             <MoistureCard />
           </Grid>
-          <Grid item xs={12} md={3}>
+          <Grid item xs={12} md={4}>
             <HumidityCard />
           </Grid>
-          <Grid item xs={12} md={3}>
-            <TemperatureTable />
-          </Grid>
-          <Grid item xs={12} md={9}>
+          <Grid item xs={12} md={8}>
             <TemperatureChart />
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <TemperatureTable />
           </Grid>
         </Grid>
       </Main>
