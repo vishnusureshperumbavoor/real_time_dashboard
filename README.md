@@ -45,7 +45,7 @@ For any inquiries or feedback, please contact [Vishnu Suresh Perumbavoor](https:
 [![GMail][gmail-shield]][gmail-url]
 
 ## Contributions 
-Open for contributions. 
+Open for contributions
 
 ## Sponsorships
 ![Bitcoin](https://img.shields.io/badge/Bitcoin-000?style=for-the-badge&logo=bitcoin&logoColor=white)  bc1qk2ed3rlq6d5hk0wp76smu62hr0stczf3zl9v4s <br>
@@ -62,7 +62,3 @@ Open for contributions.
 [github-url]: https://github.com/vishnusureshperumbavoor
 [gmail-shield]: https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white
 [gmail-url]: mailto:vishnusureshperumbavoor@gmail.com
-
-
-
-
