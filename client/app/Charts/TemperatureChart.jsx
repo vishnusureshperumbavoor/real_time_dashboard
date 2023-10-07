@@ -42,15 +42,19 @@ function TemperatureChart() {
       <Card sx={{ minWidth: 275, backgroundColor: "#212121" }}>
         <CardContent>
           <Typography
-            sx={{ fontSize: 14, fontFamily: "Times New Roman" }}
+            sx={{
+              fontSize: 14,
+              fontFamily: "Times New Roman", // Set the font family
+              fontWeight: "bold",
+            }}
             color="white"
             gutterBottom
           >
-            TemperatureChart
+            Temperature Chart
           </Typography>
           <LineChart
             width={750}
-            height={370}
+            height={250}
             data={data}
             margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
           >
