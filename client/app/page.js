@@ -1,6 +1,14 @@
+"use client"
 import Image from 'next/image'
 import styles from './page.module.css'
 import Dashboard from './Dashboard/Dashboard'
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark", // Set the theme mode to "dark"
+  },
+});
 
 export default function Home() {
   const mainStyle = {
@@ -9,7 +17,9 @@ export default function Home() {
 
   return (
     <main className={styles.main} style={mainStyle}>
-      <Dashboard/>
+      <ThemeProvider theme={darkTheme}>
+        <Dashboard />
+      </ThemeProvider>
     </main>
-  )
+  );
 }

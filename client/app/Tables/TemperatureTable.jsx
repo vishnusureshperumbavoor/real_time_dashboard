@@ -1,6 +1,6 @@
 import * as React from "react";
 import PropTypes from "prop-types";
-import { alpha, createTheme, ThemeProvider } from "@mui/material/styles";
+import { alpha} from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -22,11 +22,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 
-const darkTheme = createTheme({
-  palette: {
-    mode: "dark", // Set the theme mode to "dark"
-  },
-});
 
 function createData(name, calories, fat, carbs, protein) {
   return {
@@ -70,10 +65,6 @@ function getComparator(order, orderBy) {
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-// Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
-// stableSort() brings sort stability to non-modern browsers (notably IE11). If you
-// only support modern browsers you can replace stableSort(exampleArray, exampleComparator)
-// with exampleArray.slice().sort(exampleComparator)
 function stableSort(array, comparator) {
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
@@ -88,34 +79,16 @@ function stableSort(array, comparator) {
 
 const headCells = [
   {
-    id: "name",
+    id: "time",
     numeric: false,
     disablePadding: true,
-    label: "Dessert (100g serving)",
+    label: "Time",
   },
   {
-    id: "calories",
+    id: "temperature",
     numeric: true,
     disablePadding: false,
-    label: "Calories",
-  },
-  {
-    id: "fat",
-    numeric: true,
-    disablePadding: false,
-    label: "Fat (g)",
-  },
-  {
-    id: "carbs",
-    numeric: true,
-    disablePadding: false,
-    label: "Carbs (g)",
-  },
-  {
-    id: "protein",
-    numeric: true,
-    disablePadding: false,
-    label: "Protein (g)",
+    label: "Temperature",
   },
 ];
 
@@ -214,7 +187,7 @@ function EnhancedTableToolbar(props) {
           id="tableTitle"
           component="div"
         >
-          Nutrition
+          Temperature
         </Typography>
       )}
 
@@ -311,7 +284,6 @@ export default function TemperatureChart() {
   );
 
   return (
-    <ThemeProvider theme={darkTheme}>
       <Box sx={{ width: "100%" }}>
         <Paper sx={{ width: "100%", mb: 2 }}>
           <EnhancedTableToolbar numSelected={selected.length} />
@@ -363,9 +335,6 @@ export default function TemperatureChart() {
                         {row.name}
                       </TableCell>
                       <TableCell align="right">{row.calories}</TableCell>
-                      <TableCell align="right">{row.fat}</TableCell>
-                      <TableCell align="right">{row.carbs}</TableCell>
-                      <TableCell align="right">{row.protein}</TableCell>
                     </TableRow>
                   );
                 })}
@@ -392,6 +361,5 @@ export default function TemperatureChart() {
           />
         </Paper>
       </Box>
-    </ThemeProvider>
   );
 }
