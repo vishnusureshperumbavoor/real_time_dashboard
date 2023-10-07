@@ -16,8 +16,6 @@ import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
@@ -329,7 +327,7 @@ export default function TemperatureChart() {
               rowCount={rows.length}
             />
             <TableBody>
-              {visibleRows.map((row, index) => {
+              {data.slice().reverse().map((row, index) => {
                 const isItemSelected = isSelected(row.name);
                 const labelId = `enhanced-table-checkbox-${index}`;
 
@@ -359,9 +357,9 @@ export default function TemperatureChart() {
                       scope="row"
                       padding="none"
                     >
-                      {row.name}
+                      {row.time}
                     </TableCell>
-                    <TableCell align="right">{row.calories}</TableCell>
+                    <TableCell align="right">{row.temperature}</TableCell>
                   </TableRow>
                 );
               })}
