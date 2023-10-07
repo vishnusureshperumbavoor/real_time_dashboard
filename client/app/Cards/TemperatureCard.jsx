@@ -7,13 +7,15 @@ require('dotenv').config
 
 function TemperatureCard() {
   const [temperature, setTemperature] = useState(null);
+  const [time, settime] = useState()
 
   useEffect(() => {
     const socket = socketIOClient(process.env.NEXT_PUBLIC_ENDPOINT);
 
     // Listen for temperature updates from the server
-    socket.on("temperature", (newTemperature) => {
-      setTemperature(newTemperature);
+    socket.on("temperature", (response) => {
+      setTemperature(response.temperature);
+      settime(response.time)
     });
 
     return () => {
@@ -34,6 +36,9 @@ function TemperatureCard() {
           </Typography>
           <Typography variant="h5" component="div" color="white">
             {temperature !== null ? `${temperature} °C` : "Loading..."}
+          </Typography>
+          <Typography color="white">
+            {time !== null ? `${time}` : "Loading..."}
           </Typography>
         </CardContent>
       </Card>

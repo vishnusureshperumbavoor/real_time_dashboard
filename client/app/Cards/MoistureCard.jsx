@@ -7,13 +7,15 @@ require("dotenv").config;
 
 function MoistureCard() {
   const [moisture, setMoisture] = useState(null);
+  const [time, settime] = useState();
 
   useEffect(() => {
     const socket = socketIOClient(process.env.NEXT_PUBLIC_ENDPOINT);
 
     // Listen for moisture updates from the server
-    socket.on("moisture", (newMoisture) => {
-      setMoisture(newMoisture);
+    socket.on("moisture", (response) => {
+      setMoisture(response.moisture);
+      settime(response.time);
     });
 
     return () => {
@@ -34,6 +36,9 @@ function MoistureCard() {
           </Typography>
           <Typography variant="h5" component="div" color="white">
             {moisture !== null ? `${moisture}%` : "Loading..."}
+          </Typography>
+          <Typography color="white">
+            {time !== null ? `${time}` : "Loading..."}
           </Typography>
         </CardContent>
       </Card>

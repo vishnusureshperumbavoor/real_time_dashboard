@@ -1,29 +1,41 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { LineChart, XAxis, YAxis, CartesianGrid, Line, Tooltip } from "recharts";
-import { Card,CardContent,Typography } from "@mui/material";
+import React, { useState, useEffect, useRef } from "react";
+import {
+  LineChart,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Line,
+  Tooltip,
+} from "recharts";
+import { Card, CardContent, Typography } from "@mui/material";
 import socketIOClient from "socket.io-client";
 require("dotenv").config;
 
 function TemperatureChart() {
-  const [chartData,setChartData] = useState("")
-  const [data,setData] = useState([])
-  const [firstState, setfirstState] = useState([])
-  const [secondState, setsecondState] = useState([])
-  const [thirdState, setthirdState] = useState([])
-  const [fourthState, setfourthState] = useState([])
-  const [fifthState, setfifthState] = useState([])
-  const [sixthState, setsixthState] = useState([])
+  const [data, setData] = useState([]);
+  const socketRef = useRef(null);
 
   useEffect(() => {
-    const socket = socketIOClient(process.env.NEXT_PUBLIC_ENDPOINT);
-    socket.on("temperature_chart_data",(data)=>{
-      setData(data)
-    })
-    socket.on("message",(data)=>{
-      setChartData(data)
-    })
-  }, [])
+    socketRef.current = socketIOClient(process.env.NEXT_PUBLIC_ENDPOINT);
+    socketRef.current.on("temperature", (response) => {
+      console.log(response);
+      setData((prevData) => [
+        ...prevData,
+        {
+          time: response.time,
+          temperature: response.temperature,
+        },
+      ]);
+    });
+    const maxDataPoints = 60;
+    if (data.length > maxDataPoints) {
+      setData((prevData) => prevData.slice(-maxDataPoints));
+    }
+    return () => {
+      socketRef.current.disconnect();
+    };
+  }, []);
 
   return (
     <div>
@@ -44,7 +56,7 @@ function TemperatureChart() {
           >
             <Line type="monotone" dataKey="temperature" stroke="#8884d8" />
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-            <XAxis dataKey="date" />
+            <XAxis dataKey="time" />
             <YAxis />
             <Tooltip />
           </LineChart>

@@ -7,13 +7,15 @@ require("dotenv").config;
 
 function HumidityCard() {
   const [humidity, setHumidity] = useState(null);
+  const [time, settime] = useState();
 
   useEffect(() => {
     const socket = socketIOClient(process.env.NEXT_PUBLIC_ENDPOINT);
 
     // Listen for humidity updates from the server
-    socket.on("humidity", (newHumidity) => {
-      setHumidity(newHumidity);
+    socket.on("humidity", (response) => {
+      setHumidity(response.humidity);
+      settime(response.time);
     });
 
     return () => {
@@ -34,6 +36,9 @@ function HumidityCard() {
           </Typography>
           <Typography variant="h5" component="div" color="white">
             {humidity !== null ? `${humidity}%` : "Loading..."}
+          </Typography>
+          <Typography color="white">
+            {time !== null ? `${time}` : "Loading..."}
           </Typography>
         </CardContent>
       </Card>
