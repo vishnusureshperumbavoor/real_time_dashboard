@@ -102,7 +102,7 @@ function Dashboard() {
             variant="h6"
             noWrap
             component="div"
-            style={{ fontFamily: "Times New Roman" }}
+            style={{ fontFamily: "Times New Roman", fontWeight: "bold" }}
           >
             REAL TIME IOT DASHBOARD
           </Typography>

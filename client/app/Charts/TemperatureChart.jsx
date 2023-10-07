@@ -61,7 +61,7 @@ function TemperatureChart() {
             <Line type="monotone" dataKey="temperature" stroke="#8884d8" />
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
             <XAxis dataKey="time" />
-            <YAxis />
+            <YAxis tickCount={4}/>
             <Tooltip />
           </LineChart>
         </CardContent>
