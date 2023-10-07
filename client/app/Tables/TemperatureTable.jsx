@@ -21,6 +21,7 @@ import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
+import { useEffect } from "react";
 
 
 function createData(name, calories, fat, carbs, protein) {
@@ -217,7 +218,7 @@ export default function TemperatureChart() {
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(true);
+  const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   const handleRequestSort = (event, property) => {
@@ -283,13 +284,35 @@ export default function TemperatureChart() {
     [order, orderBy, page, rowsPerPage]
   );
 
+  useEffect(() => {
+    socketRef.current = socketIOClient(process.env.NEXT_PUBLIC_ENDPOINT);
+    socketRef.current.on("temperature", (response) => {
+      console.log(response);
+      setData((prevData) => [
+        ...prevData,
+        {
+          time: response.time,
+          temperature: response.temperature,
+        },
+      ]);
+    });
+    const maxDataPoints = 60;
+    if (data.length > maxDataPoints) {
+      setData((prevData) => prevData.slice(-maxDataPoints));
+    }
+    return () => {
+      socketRef.current.disconnect();
+    };
+  }, [])
+  
+
   return (
       <Box sx={{ width: "100%" }}>
         <Paper sx={{ width: "100%", mb: 2 }}>
           <EnhancedTableToolbar numSelected={selected.length} />
           <TableContainer>
             <Table
-              sx={{ minWidth: 750 }}
+              sx={{ minWidth: 350 }}
               aria-labelledby="tableTitle"
               size={dense ? "small" : "medium"}
             >

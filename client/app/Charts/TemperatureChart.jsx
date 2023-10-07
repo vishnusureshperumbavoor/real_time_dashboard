@@ -50,7 +50,7 @@ function TemperatureChart() {
           </Typography>
           <LineChart
             width={750}
-            height={300}
+            height={370}
             data={data}
             margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
           >
